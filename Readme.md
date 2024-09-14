@@ -121,9 +121,5 @@ node todo.js remove 1
 - The tasks are stored in the `todos.json` file. If the file does not exist, it will be created automatically when you add a task.
 - If you make a mistake with a task's status (done/undone), you can easily switch its state using the `done` or `undone` commands.
 
-## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-```
 
-Just copy and paste this content into your `README.md` file, and you're all set!
