@@ -1,125 +1,155 @@
-Sure! Here’s the complete `README.md` file you can copy-paste:
+Here’s a comprehensive README file for your `todo` CLI tool. This README will cover installation, usage, and all the features of your tool.
 
-```markdown
-# To-Do CLI Manager
+---
 
-This is a command-line interface (CLI) tool built with Node.js to help you manage your to-do tasks. You can add, list, remove, and mark tasks as done or undone. Tasks can be prioritized, and they're saved in a local JSON file (`todos.json`).
+# Todo CLI Tool
+
+A powerful CLI tool for managing your to-do tasks with advanced features like due dates, priority, categories, recurring tasks, and more.
 
 ## Features
-- **Add** new tasks with a priority level.
-- **List** all tasks sorted by priority.
-- **Remove** tasks by index.
-- **Mark tasks as done** or undone.
-- Data is saved to a local `todos.json` file.
+
+- **Add Tasks with Priorities**: Add tasks with customizable priority values.
+- **List Tasks**: List all tasks sorted by priority and due date.
+- **Mark Tasks as Done/Undone**: Mark tasks as completed or not completed.
+- **Remove Tasks**: Delete tasks based on their index.
+- **Due Dates for Tasks**: Set and display due dates for tasks.
+- **Filter by Status**: Filter tasks by "done" or "not done" status.
+- **Edit Tasks**: Edit existing tasks (modify text, priority, or due date).
+- **Search for Tasks**: Search tasks by keyword or tag.
+- **Group Tasks by Category**: Organize tasks into categories or labels.
+- **Recurring Tasks**: Automatically re-add recurring tasks after completion.
+- **Color-Coded Priority**: Display tasks with color codes based on priority levels.
+- **Reminders**: Notify users of upcoming deadlines.
+- **Backup and Restore**: Features to back up and restore the `todos.json` file.
+- **Task History**: Keep a log of completed tasks for future reference.
 
 ## Installation
 
-### Prerequisites
-- You must have Node.js installed on your machine.
-- You need `npm` or `yarn` to install dependencies.
+1. **Clone the Repository**:
 
-### Steps
-1. Clone this repository or download the project files.
-   ```bash
-   git clone https://github.com/your-repo/todo-cli-manager.git
-   cd todo-cli-manager
-   ```
+    ```bash
+    git clone https://github.com/your-username/todo-cli-tool.git
+    cd todo-cli-tool
+    ```
 
-2. Install dependencies.
-   ```bash
-   npm install
-   ```
+2. **Install Dependencies**:
 
-3. Run the tool.
-   ```bash
-   node todo.js <command>
-   ```
+    ```bash
+    npm install
+    ```
+
+3. **Link the CLI Tool Globally**:
+
+    ```bash
+    npm link
+    ```
 
 ## Usage
 
-### 1. Add a task
-To add a new task, use the `add` command, followed by the task description. You can optionally set a priority (default is 1).
+### Adding a Task
 
 ```bash
-node todo.js add "Buy groceries" --priority 3
+todo add "Task description" --priority <priority> --due <dueDate> --category <category> --recurring
 ```
 
-**Options:**
-- `--priority, -p`: Set the priority level of the task. Higher priority tasks are listed first.
+- **`<priority>`**: The priority level of the task (default is 1).
+- **`<dueDate>`**: The due date for the task in `YYYY-MM-DD` format (optional).
+- **`<category>`**: The category or label for the task (optional).
+- **`--recurring`**: Mark the task as recurring (optional).
 
-### 2. List all tasks
-To view all tasks, sorted by priority, use the `list` command:
+### Listing Tasks
 
 ```bash
-node todo.js list
+todo list
 ```
 
-### 3. Mark a task as done
-To mark a task as done, use the `done` command with the task index (as listed):
+- Lists all tasks sorted by priority and due date.
+
+### Marking a Task as Done
 
 ```bash
-node todo.js done 1
+todo done <index>
 ```
 
-### 4. Mark a task as not done
-To mark a task as not done, use the `undone` command with the task index:
+- Marks the task at the specified index as done.
+
+### Marking a Task as Undone
 
 ```bash
-node todo.js undone 1
+todo undone <index>
 ```
 
-### 5. Remove a task
-To remove a task, use the `remove` command followed by the task index:
+- Marks the task at the specified index as not done.
+
+### Removing a Task
 
 ```bash
-node todo.js remove 1
+todo remove <index>
 ```
 
-## Example Workflow
+- Removes the task at the specified index.
 
-1. Add a task:
-   ```bash
-   node todo.js add "Study for exam" --priority 2
-   ```
+### Editing a Task
 
-2. Add another task:
-   ```bash
-   node todo.js add "Complete project report" --priority 1
-   ```
+```bash
+todo edit <index> --task "<newDescription>" --priority <newPriority> --due <newDueDate>
+```
 
-3. List tasks:
-   ```bash
-   node todo.js list
-   ```
-   Output:
-   ```
-   1. Study for exam [ ] (Priority: 2)
-   2. Complete project report [ ] (Priority: 1)
-   ```
+- **`<index>`**: The index of the task to edit.
+- **`--task`**: New task description (optional).
+- **`--priority`**: New priority level (optional).
+- **`--due`**: New due date in `YYYY-MM-DD` format (optional).
 
-4. Mark the first task as done:
-   ```bash
-   node todo.js done 1
-   ```
+### Searching for Tasks
 
-5. List tasks again:
-   ```bash
-   node todo.js list
-   ```
-   Output:
-   ```
-   1. Study for exam [x] (Priority: 2)
-   2. Complete project report [ ] (Priority: 1)
-   ```
+```bash
+todo search "<keyword>"
+```
 
-6. Remove a task:
-   ```bash
-   node todo.js remove 2
-   ```
+- Searches tasks by the specified keyword or tag.
 
-## Notes
-- The tasks are stored in the `todos.json` file. If the file does not exist, it will be created automatically when you add a task.
-- If you make a mistake with a task's status (done/undone), you can easily switch its state using the `done` or `undone` commands.
+### Filtering Tasks by Status
+
+```bash
+todo filter --done
+todo filter --undone
+```
+
+- **`--done`**: Show only completed tasks.
+- **`--undone`**: Show only uncompleted tasks.
+
+### Backup and Restore
+
+#### Backup
+
+```bash
+todo backup
+```
+
+- Creates a backup of the `todos.json` file.
+
+#### Restore
+
+```bash
+todo restore
+```
+
+- Restores the `todos.json` file from the latest backup.
+
+## Configuration
+
+### Colors
+
+The CLI tool uses color codes to differentiate tasks based on priority levels. Customize the color settings in the `config.json` file.
+
+### Reminders
+
+Set up reminders in the `config.json` file to get notified of upcoming deadlines.
 
 
+## Contact
+
+For feedback, please reach out to [edushrijak@gmail.com](mailto:your-email@example.com).
+
+---
 

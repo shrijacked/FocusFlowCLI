@@ -1,111 +1,95 @@
-const fs = require("fs").promises;
+#!/usr/bin/env node
 const { Command } = require('commander');
 const program = new Command();
 
-const TODO_FILE = 'todos.json';
-
-// Helper function to read todos from file
-const readTodos = async () => {
-    try {
-        await fs.access(TODO_FILE);
-        const data = await fs.readFile(TODO_FILE, 'utf-8');
-        return JSON.parse(data);
-    } catch (err) {
-        if (err.code === 'ENOENT') {
-            return [];
-        } else {
-            throw err;
-        }
-    }
-};
-
-// Helper function to write todos to file
-const writeTodos = async (todos) => {
-    await fs.writeFile(TODO_FILE, JSON.stringify(todos, null, 2));
-};
-
-// Helper function to list todos sorted by priority
-const listTodosByPriority = async () => {
-    const todos = await readTodos();
-    if (todos.length === 0) {
-        console.log('No to-do items found.');
-    } else {
-        todos.sort((a, b) => b.priority - a.priority); // Sort in descending order
-        todos.forEach((todo, index) => {
-            console.log(`${index + 1}. ${todo.task} [${todo.done ? 'x' : ' '}] (Priority: ${todo.priority})`);
-        });
-    }
-};
+const todo = require('./todos');
+const search = require('./search');
+const filter = require('./filter');
+const backup = require('./backup');
+const recurring = require('./recurring');
+const color = require('./color');
 
 program
     .name('todo')
     .description('CLI to manage to-do tasks')
     .version('1.0.0');
 
+// Define commands using imported functions
 program
     .command('add')
     .description('Add a new to-do item')
     .argument('<task>', 'Task to add')
     .option('-p, --priority <priority>', 'Priority of the task', '1')
-    .action(async (task, options) => {
-        const todos = await readTodos();
-        const priority = parseInt(options.priority, 10);
-        todos.push({ task, done: false, priority });
-        await writeTodos(todos);
-        console.log(`Added task: ${task} with priority: ${priority}`);
-    });
+    .option('-d, --due <dueDate>', 'Due date for the task')
+    .option('-c, --category <category>', 'Category for the task')
+    .option('-r, --recurring', 'Set task as recurring')
+    .action(todo.add);
 
 program
     .command('list')
     .description('List all to-do items')
-    .action(listTodosByPriority);
+    .action(todo.list);
 
 program
     .command('remove')
     .description('Remove a to-do item by index')
     .argument('<index>', 'Index of the task to remove')
-    .action(async (index) => {
-        const todos = await readTodos();
-        const idx = parseInt(index, 10) - 1;
-        if (idx >= 0 && idx < todos.length) {
-            const removed = todos.splice(idx, 1);
-            await writeTodos(todos);
-            console.log(`Removed task: ${removed[0].task}`);
-        } else {
-            console.log('Invalid index.');
-        }
-    });
+    .action(todo.remove);
 
 program
     .command('done')
     .description('Mark a to-do item as done')
     .argument('<index>', 'Index of the task to mark as done')
-    .action(async (index) => {
-        const todos = await readTodos();
-        const idx = parseInt(index, 10) - 1;
-        if (idx >= 0 && idx < todos.length) {
-            todos[idx].done = true;
-            await writeTodos(todos);
-            console.log(`Marked task as done: ${todos[idx].task}`);
-        } else {
-            console.log('Invalid index.');
-        }
-    });
+    .action(todo.done);
 
 program
     .command('undone')
     .description('Mark a to-do item as not done')
     .argument('<index>', 'Index of the task to mark as not done')
-    .action(async (index) => {
-        const todos = await readTodos();
-        const idx = parseInt(index, 10) - 1;
-        if (idx >= 0 && idx < todos.length) {
-            todos[idx].done = false;
-            await writeTodos(todos);
-            console.log(`Marked task as not done: ${todos[idx].task}`);
-        } else {
-            console.log('Invalid index.');
-        }
-    });
+    .action(todo.undone);
+
+program
+    .command('filter')
+    .description('Filter tasks by status (done or not done)')
+    .option('-d, --done', 'Show only completed tasks')
+    .option('-u, --undone', 'Show only uncompleted tasks')
+    .action(filter);
+
+program
+    .command('edit')
+    .description('Edit an existing task')
+    .argument('<index>', 'Index of the task to edit')
+    .option('-t, --task <task>', 'New task description')
+    .option('-p, --priority <priority>', 'New priority for the task')
+    .option('-d, --due <dueDate>', 'New due date for the task')
+    .option('-c, --category <category>', 'New category for the task')
+    .action(todo.edit);
+
+program
+    .command('search')
+    .description('Search for tasks by keyword')
+    .argument('<keyword>', 'Keyword to search for')
+    .action(search);
+
+program
+    .command('group')
+    .description('Group tasks by category')
+    .action(todo.group);
+
+program
+    .command('backup')
+    .description('Backup the to-do list to a file')
+    .action(backup.backup);
+
+program
+    .command('restore')
+    .description('Restore the to-do list from a backup file')
+    .argument('<backupFile>', 'Path to the backup file')
+    .action(backup.restore);
+
+program
+    .command('history')
+    .description('View task history')
+    .action(todo.history);
 
 program.parse();
