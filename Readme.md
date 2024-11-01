@@ -1,155 +1,159 @@
-Here’s a comprehensive README file for your `todo` CLI tool. This README will cover installation, usage, and all the features of your tool.
+# Todo Application
+
+This repository contains a **Todo Web App** and a **Todo CLI Tool** for managing tasks. The Web App uses JWT Authentication, while the CLI Tool provides advanced task management features like categorization, due dates, priorities, and recurring tasks.
 
 ---
 
-# Todo CLI Tool
+## Web App Overview
 
-A powerful CLI tool for managing your to-do tasks with advanced features like due dates, priority, categories, recurring tasks, and more.
+The Todo Web App is built with **Node.js**, **Express**, **MongoDB**, and **JWT** for secure user authentication. It offers a RESTful API for managing tasks with additional features.
 
-## Features
+### Web App Features
+- **User Registration and Login**
+- **JWT Authentication**
+- **CRUD Operations** for tasks
+- **Task Prioritization** and **Categorization**
+- **Task Recurrence**
 
-- **Add Tasks with Priorities**: Add tasks with customizable priority values.
-- **List Tasks**: List all tasks sorted by priority and due date.
-- **Mark Tasks as Done/Undone**: Mark tasks as completed or not completed.
-- **Remove Tasks**: Delete tasks based on their index.
-- **Due Dates for Tasks**: Set and display due dates for tasks.
-- **Filter by Status**: Filter tasks by "done" or "not done" status.
-- **Edit Tasks**: Edit existing tasks (modify text, priority, or due date).
-- **Search for Tasks**: Search tasks by keyword or tag.
-- **Group Tasks by Category**: Organize tasks into categories or labels.
-- **Recurring Tasks**: Automatically re-add recurring tasks after completion.
-- **Color-Coded Priority**: Display tasks with color codes based on priority levels.
-- **Reminders**: Notify users of upcoming deadlines.
-- **Backup and Restore**: Features to back up and restore the `todos.json` file.
-- **Task History**: Keep a log of completed tasks for future reference.
+### Technologies Used
+- **Node.js**
+- **Express**
+- **MongoDB** & **Mongoose**
+- **JWT (JSON Web Token)**
+- **Zod** (schema validation)
+- **dotenv** (environment variables)
 
-## Installation
+### Prerequisites
+- **Node.js** (v14 or higher)
+- **MongoDB** (local or Atlas)
+- **npm** (Node Package Manager)
 
-1. **Clone the Repository**:
+### Installation (Web App)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/todo-app.git
+   cd todo-app
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   - Create a `.env` file and add:
+     ```env
+     PORT=5000
+     MONGO_URI=your_mongodb_uri
+     JWT_SECRET=your_jwt_secret
+     ```
+4. Start the server:
+   ```bash
+   npm start
+   ```
 
-    ```bash
-    git clone https://github.com/your-username/todo-cli-tool.git
-    cd todo-cli-tool
-    ```
+### API Endpoints
+#### User Routes
+- **Register**: `/api/users/register` (POST)
+- **Login**: `/api/users/login` (POST)
 
-2. **Install Dependencies**:
+#### Task Routes (JWT Authentication required)
+- **Add Task**: `/api/tasks` (POST)
+- **Get All Tasks**: `/api/tasks` (GET)
+- **Get Task by ID**: `/api/tasks/:id` (GET)
+- **Update Task**: `/api/tasks/:id` (PUT)
+- **Delete Task**: `/api/tasks/:id` (DELETE)
 
-    ```bash
-    npm install
-    ```
+Test API endpoints with tools like **Postman** or **curl**. Include the JWT token in the Authorization header for protected routes.
 
-3. **Link the CLI Tool Globally**:
+---
 
-    ```bash
-    npm link
-    ```
+## CLI Tool Overview
 
-## Usage
+The CLI Tool provides a command-line interface for task management with a range of powerful features.
 
-### Adding a Task
+### CLI Tool Features
+- **Add Tasks with Priority**
+- **List Tasks** (sorted by priority and due date)
+- **Mark Tasks as Done/Undone**
+- **Remove Tasks**
+- **Due Dates** for tasks
+- **Status Filtering** (done/not done)
+- **Edit Tasks**
+- **Search for Tasks**
+- **Group Tasks by Category**
+- **Recurring Tasks**
+- **Color-Coded Priority**
+- **Reminders** for deadlines
+- **Backup and Restore**
+- **Task History**
 
-```bash
-todo add "Task description" --priority <priority> --due <dueDate> --category <category> --recurring
-```
+### Installation (CLI Tool)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/todo-cli-tool.git
+   cd todo-cli-tool
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Link the CLI Tool globally:
+   ```bash
+   npm link
+   ```
 
-- **`<priority>`**: The priority level of the task (default is 1).
-- **`<dueDate>`**: The due date for the task in `YYYY-MM-DD` format (optional).
-- **`<category>`**: The category or label for the task (optional).
-- **`--recurring`**: Mark the task as recurring (optional).
+### CLI Usage
+- **Add a Task**:
+  ```bash
+  todo add "Task description" --priority <priority> --due <dueDate> --category <category> --recurring
+  ```
+  - `<priority>`: Priority level (default is 1)
+  - `<dueDate>`: YYYY-MM-DD format (optional)
+  - `<category>`: Task category (optional)
+  - `--recurring`: Recurring task (optional)
 
-### Listing Tasks
+- **List Tasks**:
+  ```bash
+  todo list
+  ```
+  
+- **Mark as Done/Undone**:
+  ```bash
+  todo done <index>
+  todo undone <index>
+  ```
 
-```bash
-todo list
-```
+- **Remove a Task**:
+  ```bash
+  todo remove <index>
+  ```
 
-- Lists all tasks sorted by priority and due date.
+- **Edit a Task**:
+  ```bash
+  todo edit <index> --task "<newDescription>" --priority <newPriority> --due <newDueDate>
+  ```
 
-### Marking a Task as Done
+- **Search Tasks**:
+  ```bash
+  todo search "<keyword>"
+  ```
 
-```bash
-todo done <index>
-```
+- **Filter by Status**:
+  ```bash
+  todo filter --done
+  todo filter --undone
+  ```
 
-- Marks the task at the specified index as done.
+- **Backup & Restore**:
+  ```bash
+  todo backup
+  todo restore
+  ```
 
-### Marking a Task as Undone
+### Configuration
+- **Colors**: Customize priority color codes in `config.json`.
+- **Reminders**: Configure reminder settings in `config.json`.
 
-```bash
-todo undone <index>
-```
-
-- Marks the task at the specified index as not done.
-
-### Removing a Task
-
-```bash
-todo remove <index>
-```
-
-- Removes the task at the specified index.
-
-### Editing a Task
-
-```bash
-todo edit <index> --task "<newDescription>" --priority <newPriority> --due <newDueDate>
-```
-
-- **`<index>`**: The index of the task to edit.
-- **`--task`**: New task description (optional).
-- **`--priority`**: New priority level (optional).
-- **`--due`**: New due date in `YYYY-MM-DD` format (optional).
-
-### Searching for Tasks
-
-```bash
-todo search "<keyword>"
-```
-
-- Searches tasks by the specified keyword or tag.
-
-### Filtering Tasks by Status
-
-```bash
-todo filter --done
-todo filter --undone
-```
-
-- **`--done`**: Show only completed tasks.
-- **`--undone`**: Show only uncompleted tasks.
-
-### Backup and Restore
-
-#### Backup
-
-```bash
-todo backup
-```
-
-- Creates a backup of the `todos.json` file.
-
-#### Restore
-
-```bash
-todo restore
-```
-
-- Restores the `todos.json` file from the latest backup.
-
-## Configuration
-
-### Colors
-
-The CLI tool uses color codes to differentiate tasks based on priority levels. Customize the color settings in the `config.json` file.
-
-### Reminders
-
-Set up reminders in the `config.json` file to get notified of upcoming deadlines.
-
+---
 
 ## Contact
-
-For feedback, please reach out to [edushrijak@gmail.com](mailto:your-email@example.com).
-
----
-
+For feedback, reach out to [edushrijak@gmail.com](mailto:edushrijak@gmail.com).
