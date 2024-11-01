@@ -1,12 +1,1 @@
-[
-  {
-    "task": "task 1",
-    "done": false,
-    "priority": 4
-  },
-  {
-    "task": "task 1\\2",
-    "done": false,
-    "priority": 1
-  }
-]
+[]
