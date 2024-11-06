@@ -1,8 +1,8 @@
 const express = require('express');
 const { addTask, getAllTasks, getTaskById, updateTask, deleteTask } = require('../controllers/taskController');
 const auth = require('../middleware/auth');
-const { Router } = require('express');
-const taskrouter = Router();
+const taskrouter = express.Router();
+
 
 // Route to add a new task
 taskrouter.post('/tasks', auth, addTask);
