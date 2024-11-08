@@ -5,7 +5,7 @@ const TODO_FILE = 'todos.json';
 const HISTORY_FILE = 'history.json';
 const BACKUP_DIR = 'backups';
 
-// Helper function to read JSON file
+// helper function to read JSON file
 const readJsonFile = async (file) => {
     try {
         await fs.access(file);
@@ -20,12 +20,12 @@ const readJsonFile = async (file) => {
     }
 };
 
-// Helper function to write JSON file
+// helper function to write JSON file
 const writeJsonFile = async (file, data) => {
     await fs.writeFile(file, JSON.stringify(data, null, 2));
 };
 
-// Save task completion to history
+// save task completion to history
 const saveToHistory = async (task, status) => {
     const history = await readJsonFile(HISTORY_FILE);
     history.push({ task, status, date: new Date().toISOString() });

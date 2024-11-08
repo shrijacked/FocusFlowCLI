@@ -5,18 +5,18 @@ const taskrouter = express.Router();
 
 
 // Route to add a new task
-taskrouter.post('/tasks', auth, addTask);
+taskrouter.post('/', auth, addTask);
 
 // Route to get all tasks
-taskrouter.get('/tasks', auth, getAllTasks);
+taskrouter.get('/', auth, getAllTasks);
 
 // Route to get a task by id
-taskrouter.get('/tasks/:id', auth, getTaskById);
+taskrouter.get('/:id', auth, getTaskById);
 
 // Route to update a task by id
-taskrouter.put('/tasks/:id', auth, updateTask);
+taskrouter.put('/:id', auth, updateTask);
 
 // Route to delete a task by id
-taskrouter.delete('/tasks/:id', auth, deleteTask);
+taskrouter.delete('/:id', auth, deleteTask);
 
 module.exports = taskrouter;

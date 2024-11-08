@@ -21,7 +21,7 @@ exports.addTask = async (req, res) => {
             dueDate,
             category,
             recurring,
-            userId: req.user._id,
+            userId: req.user.id,
         });
         
         // save the task to the database
@@ -32,20 +32,20 @@ exports.addTask = async (req, res) => {
         if (err instanceof z.ZodError) {
             return res.status(400).json({ errors: err.errors });
         }
-        console.error(err.message);
-        res.status(500).json({ error: 'server error' });
+        console.error('Error details:', err); // Log the error details
+        res.status(500).json({ error: 'server error 1' });
     }
 };
 
 exports.getAllTasks = async (req, res) => {
     try {
         // find tasks by user id
-        const tasks = await Task.find({ userId: req.user._id });
+        const tasks = await Task.find({ userId: req.user.id });
         
         res.json(tasks);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'server error' });
+        res.status(500).json({ error: 'server error 2' });
     }
 };
 
@@ -60,7 +60,7 @@ exports.getTaskById = async (req, res) => {
         res.json(task);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'server error' });
+        res.status(500).json({ error: 'server error 3' });
     }
 };
 
@@ -93,7 +93,7 @@ exports.updateTask = async (req, res) => {
             return res.status(400).json({ errors: err.errors });
         }
         console.error(err.message);
-        res.status(500).json({ error: 'server error' });
+        res.status(500).json({ error: 'server error 4' });
     }
 };
 
@@ -108,6 +108,6 @@ exports.deleteTask = async (req, res) => {
         res.json({ message: 'task removed' });
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'server error' });
+        res.status(500).json({ error: 'server error 5' });
     }
 };
